@@ -16,7 +16,6 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-    // 진단 질문 응답
     @PostMapping
     public ResponseEntity<?> getNextQuestion(@RequestBody @Valid QuestionRequestDto dto) {
         return ResponseEntity.ok(questionService.findNextQuestion(dto));
@@ -28,7 +27,6 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.findFirstQuestion("sleepdisorder"));
     }
 
-    // 수면장애 결정적 진단 응답
     @PostMapping (value = "/sleepdisorder/decisive")
     public ResponseEntity<?> getDecisiveQuestion(@RequestBody @Valid DecisiveQuestionRequestDto dto) {
         return ResponseEntity.ok(questionService.findDecisiveQuestion(dto));
@@ -40,15 +38,14 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.findFirstQuestion("headache"));
     }
 
-    // 두통 마지막 초기 질문 응답
+    // 두통 마지막 초기 질문
     @PostMapping(value = "/headache/last-default")
     public ResponseEntity<?> getHeadacheDefaultQuestionAfter(@RequestBody @Valid HeadacheDefaultQuestionAfterRequestDto dto){
         return ResponseEntity.ok(questionService.findHeadacheDefaultQuestionAfter(dto));
     }
 
-    // 두통 결정적 진단 응답
     @PostMapping (value = "/headache/decisive")
-    public ResponseEntity<?> getHeadacheDecisiveQuestion(@RequestBody @Valid DecisiveQuestionRequestDto dto) {
+    public ResponseEntity<?> getHeadacheDecisiveQuestion(@RequestBody @Valid HeadacheDecisiveQuestionRequestDto dto) {
         return ResponseEntity.ok(questionService.findHeadacheDecisiveQuestion(dto));
     }
 }
