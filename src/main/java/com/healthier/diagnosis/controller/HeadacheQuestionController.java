@@ -64,6 +64,14 @@ public class HeadacheQuestionController {
     }
 
     /**
+     * 긴장/군발성 두통 로직 시작 질문
+     */
+    @GetMapping("/tension-headache")
+    public QuestionResponse TensionHeadacheFirstQuestion() {
+        return new QuestionResponse(questionService.getTensionHeadacheFirstQuestion());
+    }
+
+    /**
      * 일차성 두통 공통 질문 결과
      */
     @PostMapping("/primary-headache")
