@@ -82,6 +82,16 @@ public class HeadacheQuestionService {
     }
 
     /**
+     * 긴장/군발성 두통 로직 시작 질문
+     */
+    public List<Question> getTensionHeadacheFirstQuestion() {
+        List<Question> questions = new ArrayList<>();
+        questions.add(questionRepository.findById(320).get());
+
+        return questions;
+    }
+
+    /**
      * 일차성 두통 공통 질문 결과
      * type 1 : 편두통 질문
      * type 2 : 긴장성/군발성 두통 질문
@@ -242,6 +252,7 @@ public class HeadacheQuestionService {
      * type 2 : 진단 결과 안내
      * type 3 : ID - 404, 405, 406 (통증 수치 질문) 반환
      * type 4 : 일차성 두통 감별로직 공통질문 요청
+     * type 5 : 긴장/군발 두통 로직 시작 질문 요청
      */
     public HeadachePainAreaNextResponse findPainAreaNextQuestion(int questionId, int answerId) {
         Optional<Question> question = questionRepository.findById(questionId);
@@ -251,14 +262,19 @@ public class HeadacheQuestionService {
         if (!answer.isDecisive()) {
             int nextQuestionId = answer.getNextQuestionId(); //다음 질문 id
 
-            // type 4: 일차성 두통 감별로직 공통질문 요청
-            if (nextQuestionId == 0) {
+            // type 5: 긴장/군발 두통 로직 시작 질문 요청
+            if (nextQuestionId == 320) {
                 int unknownEmergency = 0;
 
                 if (questionId == 406 & answerId == 0) { // 원인 불명의 안과질환 가능성 판별
                     unknownEmergency = 1;
                 }
-                return new HeadachePainAreaNextResponse(4, "일차성 두통 감별로직 공통질문을 요청하세요", unknownEmergency);
+                return new HeadachePainAreaNextResponse(5, "긴장/군발성 두통 로직 시작 질문을 요청하세요", unknownEmergency);
+            }
+
+            // type 4: 일차성 두통 감별로직 공통질문 요청
+            if (nextQuestionId == 0) {
+                return new HeadachePainAreaNextResponse(4, "일차성 두통 감별로직 공통질문을 요청하세요", 0);
             }
 
             // type 3: 통증 수치 질문
