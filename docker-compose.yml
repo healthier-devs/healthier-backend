@@ -3,7 +3,7 @@ version: "3"
 services:
   backend:
     container_name: backend
-    image: yourzinc/healthier-server-dev
+    image: yourzinc/healthier-server-dev:dev
     expose:
       - "8080"
     ports:
