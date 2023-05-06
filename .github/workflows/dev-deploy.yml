@@ -19,6 +19,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    env:
+      APPLICATION: ${{ secrets.APPLICATION }}
 
     steps:
       - uses: actions/checkout@v3
@@ -36,9 +39,8 @@ jobs:
       - name: Make application.yml
         run: |
           touch ./src/main/resources/application.yml
-          echo "$APPLICATION" > ./src/main/resources/application.yml
-        env:
-          APPLICATION: ${{ secrets.APPLICATION }}
+          echo "${{ env.APPLICATION }}" > ./src/main/resources/application.yml
+        
 
 
       - name: Build with Gradle
