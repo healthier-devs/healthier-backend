@@ -133,9 +133,20 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Diagnosis diagnosis = diagnosisRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_NOT_FOUND));
+        // 진단
 
+        Diagnosis diagnosis;
+
+        // 두통 : 문자열이 정수인 경우
+        if (id.matches("-?\\d+")) {
+            diagnosis = diagnosisRepository.findByNewId(Integer.parseInt(id))
+                    .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_NOT_FOUND));
+        }
+        else {
+            // 수면장애
+            diagnosis = diagnosisRepository.findById(id)
+                    .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_NOT_FOUND));
+        }
         User.Record record = User.Record.builder()
                 .diagnosis_id(id)
                 .title(diagnosis.getTitle())
