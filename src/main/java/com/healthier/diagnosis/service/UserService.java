@@ -148,7 +148,7 @@ public class UserService {
                     .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_NOT_FOUND));
         }
         User.Record record = User.Record.builder()
-                .diagnosis_id(id)
+                .diagnosis_id(diagnosis.getId())
                 .title(diagnosis.getTitle())
                 .severity(diagnosis.getSeverity())
                 .is_created(LocalDateTime.now())
